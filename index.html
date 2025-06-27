@@ -38,7 +38,7 @@
       transform: scaleX(-1);
       border-radius: 12px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-      filter: brightness(1.15) contrast(1.05) saturate(1.05) blur(0.4px);
+      filter: brightness(1.2) contrast(1.1) saturate(1.05) blur(0.4px);
       z-index: 1;
       object-fit: cover;
     }
@@ -77,16 +77,12 @@
         flex-direction: column;
       }
 
-      video, canvas {
+      video, canvas, #frame {
         width: 320px;
         height: 420px;
         top: 100px;
-      }
-
-      #frame {
-        width: 320px;
-        height: 420px;
-        top: 100px;
+        left: 50%;
+        transform: translateX(-50%) scaleX(-1);
       }
 
       #fotoBtn {
@@ -95,19 +91,19 @@
         height: 70px;
         font-size: 30px;
       }
+
+      #frame {
+        border-width: 20px;
+      }
     }
 
     @media (min-width: 769px) {
-      video, canvas {
+      video, canvas, #frame {
         width: 800px;
         height: 608px;
         top: 100px;
-      }
-
-      #frame {
-        width: 800px;
-        height: 608px;
-        top: 100px;
+        left: 50%;
+        transform: translateX(-50%) scaleX(-1);
       }
     }
   </style>
@@ -141,27 +137,26 @@
     }
 
     fotoBtn.addEventListener('click', () => {
-      const deviceIsMobile = window.innerWidth <= 768;
-      const width = deviceIsMobile ? 1080 : 800;
-      const height = deviceIsMobile ? 1400 : 608; // → sedikit lebih tinggi agar tidak gepeng vertikal
+      const isMobile = window.innerWidth <= 768;
+      const width = isMobile ? 1080 : 800;
+      const height = isMobile ? 1420 : 608; // tambah tinggi agar tidak gepeng vertikal
 
       const fotoCanvas = document.createElement('canvas');
       fotoCanvas.width = width;
       fotoCanvas.height = height;
       const ctx = fotoCanvas.getContext('2d');
 
-      // mirror foto
+      // mirror
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
 
-      // ambil video dan overlay
       ctx.drawImage(video, 0, 0, width, height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(canvas, 0, 0, width, height);
 
-      // Tambahkan frame pink di hasil
+      // Tambah frame pink
       ctx.strokeStyle = '#ffaad4';
-      ctx.lineWidth = deviceIsMobile ? 40 : 30;
+      ctx.lineWidth = isMobile ? 40 : 30;
       ctx.strokeRect(0, 0, width, height);
 
       const dataURL = fotoCanvas.toDataURL('image/png');
@@ -173,6 +168,7 @@
   </script>
 </body>
 </html>
+
 
 
 
