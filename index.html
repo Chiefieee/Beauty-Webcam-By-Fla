@@ -2,49 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Beauty Webcam by Fla</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Webcam by Fla 📸</title>
   <style>
     body {
+      margin: 0;
       background-color: #ffd6e7;
       font-family: sans-serif;
-      margin: 0;
-      padding: 0;
       text-align: center;
     }
 
     h1 {
       color: hotpink;
-      font-size: 28px;
       margin-top: 20px;
     }
 
     p {
       color: #ff66a3;
-      font-size: 18px;
-      margin: 10px 0 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
     #container {
       position: relative;
-      width: 360px;
-      height: 480px;
-      margin: 0 auto;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #videoWrapper {
+      position: relative;
+      width: 320px;
+      height: 240px;
+      margin-top: 10px;
     }
 
     video, canvas {
       position: absolute;
+      width: 320px;
+      height: 240px;
       top: 0;
       left: 0;
-      width: 360px;
-      height: 480px;
-      border-radius: 12px;
-      object-fit: cover;
+      border-radius: 16px;
       transform: scaleX(-1);
-    }
-
-    video {
-      filter: brightness(1.2) contrast(1.15) saturate(1.05) blur(0.6px);
+      object-fit: cover;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      z-index: 1;
     }
 
     canvas {
@@ -56,13 +62,13 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      border: 20px solid #ffaad4;
-      border-radius: 12px;
+      width: 320px;
+      height: 240px;
+      border: 12px solid #ffaad4;
       box-sizing: border-box;
       z-index: 3;
       pointer-events: none;
+      border-radius: 16px;
     }
 
     #fotoBtn {
@@ -81,26 +87,19 @@
       cursor: pointer;
     }
 
-    @media (max-width: 768px) {
-      #container {
-        width: 320px;
-        height: 430px;
-      }
-
+    @media (min-width: 769px) {
       video, canvas {
-        width: 320px;
-        height: 430px;
+        filter: brightness(1.1) contrast(1.15) saturate(1.1) blur(0.4px);
       }
+    }
 
-      #frame {
-        border-width: 16px;
+    @media (max-width: 768px) {
+      video, canvas {
+        filter: brightness(1.25) contrast(1.2) saturate(1.2) blur(0.5px);
       }
 
       #fotoBtn {
-        margin-top: 15px;
-        width: 60px;
-        height: 60px;
-        font-size: 28px;
+        margin-top: 16px;
       }
     }
   </style>
@@ -110,13 +109,15 @@
   <p>Klik "Izinkan Kamera"</p>
 
   <div id="container">
-    <video id="kamera" autoplay muted playsinline></video>
-    <canvas id="overlay"></canvas>
-    <div id="frame"></div>
-  </div>
+    <div id="videoWrapper">
+      <video id="kamera" autoplay muted playsinline></video>
+      <canvas id="overlay"></canvas>
+      <div id="frame"></div>
+    </div>
 
-  <button id="fotoBtn">📸</button>
-  <a id="downloadLink" download="Fla-Foto.png" style="display: none;"></a>
+    <button id="fotoBtn">📸</button>
+    <a id="downloadLink" download="Fla-Foto.png" style="display: none;"></a>
+  </div>
 
   <script>
     const video = document.getElementById('kamera');
@@ -136,22 +137,25 @@
 
     fotoBtn.addEventListener('click', () => {
       const isMobile = window.innerWidth <= 768;
+
       const width = isMobile ? 1080 : 800;
-      const height = isMobile ? 1350 : 608;
+      const height = isMobile ? 1280 : 608; // dipendekkan sedikit dari 1350 biar tidak terlalu panjang
 
       const fotoCanvas = document.createElement('canvas');
       fotoCanvas.width = width;
       fotoCanvas.height = height;
       const ctx = fotoCanvas.getContext('2d');
 
+      // mirror hasil foto
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
+
       ctx.drawImage(video, 0, 0, width, height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(canvas, 0, 0, width, height);
 
-      // Tambah frame ke hasil
-      ctx.lineWidth = isMobile ? 40 : 30;
+      // Tambahkan frame pink ke hasil
+      ctx.lineWidth = isMobile ? 80 : 60;
       ctx.strokeStyle = '#ffaad4';
       ctx.strokeRect(0, 0, width, height);
 
@@ -164,3 +168,4 @@
   </script>
 </body>
 </html>
+
