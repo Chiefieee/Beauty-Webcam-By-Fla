@@ -33,7 +33,7 @@
 
     video, canvas, #frame {
       position: absolute;
-      top: 40px; /* ✅ Kamera dinaikkan */
+      top: 20px; /* ✅ dinaikkan lebih tinggi */
       left: 50%;
       transform: translateX(-50%) scaleX(-1);
       border-radius: 12px;
@@ -55,7 +55,6 @@
 
     #fotoBtn {
       position: absolute;
-      bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
       width: 80px;
@@ -77,11 +76,11 @@
       video, canvas, #frame {
         width: 320px;
         height: 420px;
-        top: 30px; /* ✅ Naikkan sedikit juga di HP */
+        top: 30px;
       }
 
       #fotoBtn {
-        bottom: 90px;
+        bottom: 110px; /* ✅ dinaikkan tombol HP */
         width: 70px;
         height: 70px;
         font-size: 30px;
@@ -96,6 +95,11 @@
       video, canvas, #frame {
         width: 800px;
         height: 608px;
+        top: 40px; /* ✅ posisi kamera/frame dinaikkan */
+      }
+
+      #fotoBtn {
+        bottom: 100px; /* ✅ tombol foto di laptop ikut naik */
       }
     }
   </style>
@@ -158,6 +162,3 @@
   </script>
 </body>
 </html>
-
-
-
