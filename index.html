@@ -66,82 +66,22 @@
       cursor: pointer;
     }
 
+    /* KHUSUS UNTUK HP */
     @media (max-width: 768px) {
       video, canvas, #frame {
         width: auto;
         height: 100vh;
         max-width: 100vw;
         max-height: 100vh;
-        top: 48%;
+        top: 50%;
         transform: translate(-50%, -50%) scaleX(-1);
       }
 
       #fotoBtn {
-        bottom: 100px;
+        bottom: 80px; /* Naikkan tombol agar pas */
         width: 70px;
         height: 70px;
         font-size: 30px;
       }
 
-      #frame {
-        border-width: 20px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div id="container">
-    <video id="kamera" autoplay muted playsinline></video>
-    <canvas id="overlay"></canvas>
-    <div id="frame"></div>
-    <button id="fotoBtn">📸</button>
-    <a id="downloadLink" download="Fla-Foto.png" style="display: none;"></a>
-  </div>
-
-  <script>
-    const video = document.getElementById('kamera');
-    const canvas = document.getElementById('overlay');
-    const context = canvas.getContext('2d');
-    const fotoBtn = document.getElementById('fotoBtn');
-    const downloadLink = document.getElementById('downloadLink');
-
-    async function startKamera() {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-      } catch (err) {
-        alert("Kamera gagal dibuka: " + err.message);
-      }
-    }
-
-    fotoBtn.addEventListener('click', () => {
-      const isMobile = window.innerWidth <= 768;
-      const width = isMobile ? 1080 : 800;
-      const height = isMobile ? 1400 : 608;  // HP: tambah tinggi sedikit
-
-      const fotoCanvas = document.createElement('canvas');
-      fotoCanvas.width = width;
-      fotoCanvas.height = height;
-      const ctx = fotoCanvas.getContext('2d');
-
-      ctx.translate(width, 0);
-      ctx.scale(-1, 1);
-      ctx.drawImage(video, 0, 0, width, height);
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.drawImage(canvas, 0, 0, width, height);
-
-      ctx.lineWidth = isMobile ? 40 : 30;
-      ctx.strokeStyle = '#ffaad4';
-      ctx.strokeRect(0, 0, width, height);
-
-      const dataURL = fotoCanvas.toDataURL('image/png');
-      downloadLink.href = dataURL;
-      downloadLink.click();
-    });
-
-    startKamera();
-  </script>
-</body>
-</html>
-
-
+      #
