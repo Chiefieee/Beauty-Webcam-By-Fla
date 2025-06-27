@@ -84,7 +84,7 @@
       }
 
       #fotoBtn {
-        bottom: 130px; /* dinaikkan */
+        bottom: 210px; /* dinaikkan mendekati kamera */
         width: 70px;
         height: 70px;
         font-size: 30px;
@@ -139,7 +139,6 @@
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(canvas, 0, 0, width, height);
 
-      // Tambahkan frame pink ke hasil
       ctx.lineWidth = deviceIsMobile ? 40 : 30;
       ctx.strokeStyle = '#ffaad4';
       ctx.strokeRect(0, 0, width, height);
@@ -153,4 +152,5 @@
   </script>
 </body>
 </html>
+
 
