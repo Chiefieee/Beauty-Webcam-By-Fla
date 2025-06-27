@@ -22,6 +22,7 @@
 
     p {
       color: #c94f8d;
+      margin-bottom: 10px;
     }
 
     #container {
@@ -37,15 +38,15 @@
       position: absolute;
       transform: scaleX(-1);
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-      filter: brightness(1.2) contrast(1.1) saturate(1.05) blur(0.4px);
       z-index: 1;
       object-fit: cover;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      filter: brightness(1.3) contrast(1.15) saturate(1.05) blur(0.4px);
     }
 
     #frame {
       position: absolute;
-      border: 20px solid #ffaad4;
+      border: 30px solid #ffaad4;
       border-radius: 12px;
       box-sizing: border-box;
       z-index: 2;
@@ -73,10 +74,6 @@
     }
 
     @media (max-width: 768px) {
-      #container {
-        flex-direction: column;
-      }
-
       video, canvas, #frame {
         width: 320px;
         height: 420px;
@@ -86,7 +83,7 @@
       }
 
       #fotoBtn {
-        bottom: 100px;
+        bottom: 90px;
         width: 70px;
         height: 70px;
         font-size: 30px;
@@ -139,22 +136,24 @@
     fotoBtn.addEventListener('click', () => {
       const isMobile = window.innerWidth <= 768;
       const width = isMobile ? 1080 : 800;
-      const height = isMobile ? 1420 : 608; // tambah tinggi agar tidak gepeng vertikal
+      const height = isMobile ? 1420 : 608; // tinggi HP ditambah agar tidak gepeng
 
       const fotoCanvas = document.createElement('canvas');
       fotoCanvas.width = width;
       fotoCanvas.height = height;
       const ctx = fotoCanvas.getContext('2d');
 
-      // mirror
+      // mirror kamera
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
 
       ctx.drawImage(video, 0, 0, width, height);
+
+      // Reset transform & overlay canvas jika digunakan
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(canvas, 0, 0, width, height);
 
-      // Tambah frame pink
+      // Tambahkan frame pink
       ctx.strokeStyle = '#ffaad4';
       ctx.lineWidth = isMobile ? 40 : 30;
       ctx.strokeRect(0, 0, width, height);
@@ -168,10 +167,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
