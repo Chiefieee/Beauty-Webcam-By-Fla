@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Beauty Webcam by Fla 📸</title>
+  <title>Beauty Webcam by Fla</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     html, body {
@@ -25,30 +25,38 @@
 
     video, canvas {
       position: absolute;
-      top: 50%;
+      top: 40px;
       left: 50%;
-      transform: translate(-50%, -53%) scaleX(-1);
-      object-fit: cover;
-      filter: brightness(1.25) contrast(1.15) saturate(1.1) blur(0.4px);
+      transform: translateX(-50%) scaleX(-1);
+      width: 320px;
+      height: 240px;
       border-radius: 12px;
-      box-shadow: 0 0 30px rgba(255, 105, 180, 0.4);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      filter: brightness(1.2) contrast(1.05) saturate(1.05) blur(0.6px);
+    }
+
+    canvas {
+      z-index: 2;
+      pointer-events: none;
     }
 
     #frame {
       position: absolute;
-      top: 50%;
+      top: 40px;
       left: 50%;
-      transform: translate(-50%, -53%);
-      border: 30px solid #ffaad4;
-      box-sizing: border-box;
-      pointer-events: none;
-      z-index: 3;
+      transform: translateX(-50%);
+      width: 320px;
+      height: 240px;
+      border: 12px solid #ffaad4;
       border-radius: 12px;
+      box-sizing: border-box;
+      z-index: 3;
+      pointer-events: none;
     }
 
     #fotoBtn {
       position: absolute;
-      bottom: 80px;
+      bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
       width: 80px;
@@ -69,15 +77,14 @@
     @media (max-width: 768px) {
       video, canvas, #frame {
         width: auto;
-        height: 100vh;
-        max-width: 100vw;
+        height: 100%;
         max-height: 100vh;
-        top: 48%;
-        transform: translate(-50%, -50%) scaleX(-1);
+        max-width: 100vw;
+        top: 20px;
       }
 
       #fotoBtn {
-        bottom: 100px;
+        bottom: 130px; /* dinaikkan */
         width: 70px;
         height: 70px;
         font-size: 30px;
@@ -115,9 +122,10 @@
     }
 
     fotoBtn.addEventListener('click', () => {
-      const isMobile = window.innerWidth <= 768;
-      const width = isMobile ? 1080 : 800;
-      const height = isMobile ? 1400 : 608;  // HP: tambah tinggi sedikit
+      const deviceIsMobile = window.innerWidth <= 768;
+
+      const width = deviceIsMobile ? 1080 : 800;
+      const height = deviceIsMobile ? 1350 : 608;
 
       const fotoCanvas = document.createElement('canvas');
       fotoCanvas.width = width;
@@ -126,11 +134,13 @@
 
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
+
       ctx.drawImage(video, 0, 0, width, height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(canvas, 0, 0, width, height);
 
-      ctx.lineWidth = isMobile ? 40 : 30;
+      // Tambahkan frame pink ke hasil
+      ctx.lineWidth = deviceIsMobile ? 40 : 30;
       ctx.strokeStyle = '#ffaad4';
       ctx.strokeRect(0, 0, width, height);
 
@@ -143,3 +153,4 @@
   </script>
 </body>
 </html>
+
