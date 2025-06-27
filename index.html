@@ -14,7 +14,8 @@
 
     h1 {
       color: hotpink;
-      margin-top: 20px;
+      margin-top: 24px;
+      font-size: 26px;
     }
 
     p {
@@ -24,13 +25,11 @@
     }
 
     #container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
     }
 
     #videoWrapper {
@@ -42,15 +41,12 @@
 
     video, canvas {
       position: absolute;
-      width: 320px;
-      height: 240px;
-      top: 0;
-      left: 0;
+      width: 100%;
+      height: 100%;
       border-radius: 16px;
-      transform: scaleX(-1);
+      transform: scaleX(-1); /* mirror */
       object-fit: cover;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-      z-index: 1;
     }
 
     canvas {
@@ -62,9 +58,9 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 320px;
-      height: 240px;
-      border: 12px solid #ffaad4;
+      width: 100%;
+      height: 100%;
+      border: 14px solid #ffaad4;
       box-sizing: border-box;
       z-index: 3;
       pointer-events: none;
@@ -78,7 +74,7 @@
       border-radius: 50%;
       background: #ff66a3;
       border: none;
-      font-size: 32px;
+      font-size: 34px;
       color: white;
       display: flex;
       align-items: center;
@@ -87,19 +83,22 @@
       cursor: pointer;
     }
 
-    @media (min-width: 769px) {
-      video, canvas {
-        filter: brightness(1.1) contrast(1.15) saturate(1.1) blur(0.4px);
-      }
-    }
-
     @media (max-width: 768px) {
+      #fotoBtn {
+        margin-top: 24px;
+        width: 65px;
+        height: 65px;
+        font-size: 30px;
+      }
+
       video, canvas {
         filter: brightness(1.25) contrast(1.2) saturate(1.2) blur(0.5px);
       }
+    }
 
-      #fotoBtn {
-        margin-top: 16px;
+    @media (min-width: 769px) {
+      video, canvas {
+        filter: brightness(1.1) contrast(1.15) saturate(1.1) blur(0.4px);
       }
     }
   </style>
@@ -139,17 +138,15 @@
       const isMobile = window.innerWidth <= 768;
 
       const width = isMobile ? 1080 : 800;
-      const height = isMobile ? 1280 : 608; // dipendekkan sedikit dari 1350 biar tidak terlalu panjang
+      const height = isMobile ? 1280 : 608;
 
       const fotoCanvas = document.createElement('canvas');
       fotoCanvas.width = width;
       fotoCanvas.height = height;
       const ctx = fotoCanvas.getContext('2d');
 
-      // mirror hasil foto
-      ctx.translate(width, 0);
+      ctx.translate(width, 0); // mirror
       ctx.scale(-1, 1);
-
       ctx.drawImage(video, 0, 0, width, height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(canvas, 0, 0, width, height);
@@ -168,4 +165,5 @@
   </script>
 </body>
 </html>
+
 
