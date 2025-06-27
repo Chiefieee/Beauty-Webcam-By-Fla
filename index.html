@@ -2,100 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Webcam by Fla 📸</title>
+  <title>Beauty Webcam by Fla</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: #ffd6e7;
-      font-family: sans-serif;
+      background-color: #ffd6e7;
+      font-family: 'sans-serif';
       text-align: center;
+      height: 100%;
       overflow: hidden;
     }
 
     h1 {
       color: hotpink;
       margin-top: 20px;
-      font-size: 28px;
     }
 
     p {
-      color: #c04b83;
-      margin-bottom: 10px;
+      color: #c94f8d;
     }
 
     #container {
       position: relative;
-      margin: 0 auto;
+      width: 100%;
+      height: calc(100vh - 60px);
       display: flex;
-      justify-content: center;
       align-items: center;
-      flex-direction: column;
+      justify-content: center;
     }
 
-    .video-wrapper {
-      position: relative;
-      width: 320px;
-      height: 426px;
-    }
-
-    video, canvas, #frame {
+    video, canvas {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 320px;
-      height: 426px;
-      object-fit: cover;
       transform: scaleX(-1);
-      border-radius: 16px;
-    }
-
-    video {
-      filter: brightness(1.25) contrast(1.05) saturate(1.05) blur(0.5px);
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      filter: brightness(1.15) contrast(1.05) saturate(1.05) blur(0.4px);
       z-index: 1;
+      object-fit: cover;
     }
 
-    canvas {
+    #frame {
+      position: absolute;
+      border: 20px solid #ffaad4;
+      border-radius: 12px;
+      box-sizing: border-box;
       z-index: 2;
       pointer-events: none;
     }
 
-    #frame {
-      border: 20px solid #ffaad4;
-      box-sizing: border-box;
-      z-index: 3;
-      pointer-events: none;
-    }
-
     #fotoBtn {
-      margin-top: 20px;
-      width: 70px;
-      height: 70px;
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       background: #ff66a3;
       border: none;
-      font-size: 32px;
+      font-size: 36px;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 0 15px #e88eb4;
+      z-index: 3;
       cursor: pointer;
-      z-index: 4;
     }
 
     @media (max-width: 768px) {
-      .video-wrapper {
-        width: 360px;
-        height: 450px;
+      #container {
+        flex-direction: column;
       }
-      video, canvas, #frame {
-        width: 360px;
-        height: 450px;
+
+      video, canvas {
+        width: 320px;
+        height: 420px;
+        top: 100px;
       }
+
+      #frame {
+        width: 320px;
+        height: 420px;
+        top: 100px;
+      }
+
       #fotoBtn {
-        margin-top: 16px;
+        bottom: 100px;
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+      }
+    }
+
+    @media (min-width: 769px) {
+      video, canvas {
+        width: 800px;
+        height: 608px;
+        top: 100px;
+      }
+
+      #frame {
+        width: 800px;
+        height: 608px;
+        top: 100px;
       }
     }
   </style>
@@ -105,11 +117,9 @@
   <p>Klik "Izinkan Kamera"</p>
 
   <div id="container">
-    <div class="video-wrapper">
-      <video id="kamera" autoplay muted playsinline></video>
-      <canvas id="overlay"></canvas>
-      <div id="frame"></div>
-    </div>
+    <video id="kamera" autoplay muted playsinline></video>
+    <canvas id="overlay"></canvas>
+    <div id="frame"></div>
     <button id="fotoBtn">📸</button>
     <a id="downloadLink" download="Fla-Foto.png" style="display: none;"></a>
   </div>
@@ -132,24 +142,26 @@
 
     fotoBtn.addEventListener('click', () => {
       const deviceIsMobile = window.innerWidth <= 768;
-
       const width = deviceIsMobile ? 1080 : 800;
-      const height = deviceIsMobile ? 1350 : 608;
+      const height = deviceIsMobile ? 1400 : 608; // → sedikit lebih tinggi agar tidak gepeng vertikal
 
       const fotoCanvas = document.createElement('canvas');
       fotoCanvas.width = width;
       fotoCanvas.height = height;
       const ctx = fotoCanvas.getContext('2d');
 
+      // mirror foto
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
+
+      // ambil video dan overlay
       ctx.drawImage(video, 0, 0, width, height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(canvas, 0, 0, width, height);
 
-      // Tambahkan frame pink ke hasil foto
-      ctx.lineWidth = deviceIsMobile ? 60 : 40;
+      // Tambahkan frame pink di hasil
       ctx.strokeStyle = '#ffaad4';
+      ctx.lineWidth = deviceIsMobile ? 40 : 30;
       ctx.strokeRect(0, 0, width, height);
 
       const dataURL = fotoCanvas.toDataURL('image/png');
@@ -161,6 +173,7 @@
   </script>
 </body>
 </html>
+
 
 
 
