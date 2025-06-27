@@ -31,7 +31,11 @@
       height: 100%;
       object-fit: cover;
       transform: scaleX(-1);
-      filter: brightness(1.2) contrast(1.05) saturate(1.05) blur(0.6px);
+    }
+
+    video {
+      /* FILTER AKTIF TERUS DI SINI */
+      filter: brightness(1.2) contrast(1.15) saturate(1.05) blur(0.6px);
     }
 
     canvas {
@@ -119,7 +123,6 @@
 
     fotoBtn.addEventListener('click', () => {
       const deviceIsMobile = window.innerWidth <= 768;
-
       const width = deviceIsMobile ? 1080 : 800;
       const height = deviceIsMobile ? 1350 : 608;
 
@@ -131,12 +134,12 @@
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
 
+      // karena filter sudah di video, langsung capture saja
       ctx.drawImage(video, 0, 0, width, height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(canvas, 0, 0, width, height);
 
-      // Tambahkan frame pink ke hasil
-      ctx.fillStyle = '#ffaad4';
+      // frame pink
       ctx.lineWidth = deviceIsMobile ? 40 : 30;
       ctx.strokeStyle = '#ffaad4';
       ctx.strokeRect(0, 0, width, height);
@@ -150,4 +153,3 @@
   </script>
 </body>
 </html>
-
