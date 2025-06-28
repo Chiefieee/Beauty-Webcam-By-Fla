@@ -29,7 +29,7 @@
       left: 50%;
       transform: translate(-50%, -53%) scaleX(-1);
       object-fit: cover;
-      filter: brightness(1.2) contrast(1.08) saturate(1.05) blur(0.3px);
+      filter: brightness(1.25) contrast(1.15) saturate(1.1) blur(0.4px);
       border-radius: 12px;
       box-shadow: 0 0 25px rgba(255, 105, 180, 0.3);
     }
@@ -84,7 +84,6 @@
   <script>
     const video = document.getElementById('kamera');
     const canvas = document.getElementById('overlay');
-    const context = canvas.getContext('2d');
     const fotoBtn = document.getElementById('fotoBtn');
     const downloadLink = document.getElementById('downloadLink');
 
@@ -122,4 +121,3 @@
   </script>
 </body>
 </html>
-
