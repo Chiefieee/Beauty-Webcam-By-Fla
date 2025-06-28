@@ -81,13 +81,13 @@
     }
 
  @media (max-width: 768px) {
-  video, canvas {
-    position: absolute;
-    top: 20px; /* Naikkan posisi kamera */
-    left: 50%;
+ video, canvas {
+    top: 20px;
     width: 270px;
     height: 360px;
-    transform: translateX(-50%) scaleX(-1); /* Fix: rata tengah */
+    position: relative;
+    transform: scaleX(-1); 
+    left: auto; 
   }
 
   #fotoBtn {
