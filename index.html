@@ -8,7 +8,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      background-color: pink;
+      background-color: #ffd6e7; /* pink yang lebih soft */
       font-family: sans-serif;
       text-align: center;
       overflow: hidden;
@@ -25,18 +25,19 @@
     }
 
     video, canvas {
-      border-radius: 15px;
-      box-shadow: 0 0 15px hotpink;
-      transform: scaleX(-1);
       position: absolute;
       top: 0;
       left: 0;
+      border-radius: 15px;
+      transform: scaleX(-1);
       object-fit: cover;
-      filter: brightness(1.25) contrast(1.15) saturate(1.1) blur(0.4px);
+      z-index: 10; /* paling depan */
+      filter: brightness(1.25) contrast(1.1) saturate(1.05) blur(0.3px);
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.2); /* soft glowing */
     }
 
     #overlay {
-      z-index: 2;
+      z-index: 9;
       pointer-events: none;
     }
 
@@ -56,7 +57,7 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 0 10px #e88eb4;
-      z-index: 3;
+      z-index: 11;
       cursor: pointer;
     }
 
@@ -119,8 +120,7 @@
 
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
-
-      ctx.filter = 'brightness(1.25) contrast(1.15) saturate(1.1) blur(0.4px)';
+      ctx.filter = 'brightness(1.25) contrast(1.1) saturate(1.05) blur(0.3px)';
       ctx.drawImage(video, 0, 0, width, height);
 
       const dataURL = fotoCanvas.toDataURL('image/png');
@@ -134,3 +134,4 @@
   </script>
 </body>
 </html>
+
