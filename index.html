@@ -77,15 +77,14 @@
     margin-top: 10px;
     font-size: 22px;
   }
-
-  video, canvas {
+    
+ video, canvas {
     width: 270px;
     height: 360px;
-    transform: scaleX(-1); /* Mirror */
+    transform: scaleX(-1);  /* mirror, tanpa translateX */
     position: relative;
-    top: 0;
-    left: auto;
-    margin-top: 5px;
+    margin: 0 auto;         /* tengah */
+    display: block;
   }
 
   #fotoBtn {
