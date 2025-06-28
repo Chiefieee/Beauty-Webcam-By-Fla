@@ -18,7 +18,7 @@
 
     h1 {
       color: hotpink;
-      margin-top: 30px;
+      margin: 30px 0;
     }
 
     #container {
@@ -88,14 +88,14 @@
       }
 
       #fotoBtn {
-        bottom: 120px;
+        bottom: 160px; /* tombol sangat dinaikkan */
         width: 70px;
         height: 70px;
         font-size: 30px;
       }
 
       h1 {
-        margin-top: 10px;
+        margin-top: 60px; /* diturunkan */
       }
     }
   </style>
@@ -129,29 +129,28 @@
     fotoBtn.addEventListener('click', () => {
       const isMobile = window.innerWidth <= 768;
       const width = isMobile ? 1080 : 800;
-      const height = isMobile ? 1450 : 608; // HP: tambah tinggi agar tidak gepeng
+      const height = isMobile ? 1450 : 608;
 
       const fotoCanvas = document.createElement('canvas');
       fotoCanvas.width = width;
       fotoCanvas.height = height;
       const ctx = fotoCanvas.getContext('2d');
 
-      // Mirror kamera
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
       ctx.drawImage(video, 0, 0, width, height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-      // Brutal filter (di-render manual)
+      // Filter halus + warna
       ctx.fillStyle = 'rgba(255, 192, 203, 0.05)';
       ctx.fillRect(0, 0, width, height);
 
-      // Tambah frame pink di hasil
+      // Frame pink
       ctx.lineWidth = isMobile ? 40 : 30;
       ctx.strokeStyle = '#ffaad4';
       ctx.strokeRect(0, 0, width, height);
 
-      // Watermark coquette
+      // Watermark
       ctx.font = '30px "Great Vibes"';
       ctx.fillStyle = 'hotpink';
       ctx.fillText('Webcam by Fla', width - 300, height - 40);
@@ -165,3 +164,4 @@
   </script>
 </body>
 </html>
+
