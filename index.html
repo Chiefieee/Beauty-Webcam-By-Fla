@@ -142,10 +142,12 @@
       fotoCanvas.height = height;
       const ctx = fotoCanvas.getContext('2d');
 
+      // Terapkan filter manual di hasil foto
       ctx.filter = "brightness(1.25) contrast(1.1) saturate(1.05) blur(0.4px)";
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
       ctx.drawImage(video, 0, 0, width, height);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
 
       // Tambah frame pink
       ctx.lineWidth = isMobile ? 40 : 30;
@@ -168,4 +170,3 @@
   </script>
 </body>
 </html>
-
