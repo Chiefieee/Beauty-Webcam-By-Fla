@@ -1,22 +1,145 @@
-@media (max-width: 768px) {
-  video, canvas, #frame {
-    width: auto;
-    height: 100vh;
-    max-width: 100vw;
-    max-height: 100vh;
-    top: 48%;
-    transform: translate(-50%, -50%) scaleX(-1);
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Beauty Webcam by Fla 📸</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #ffe6f0;
+      font-family: sans-serif;
+      height: 100%;
+      overflow: hidden;
+    }
 
-  #fotoBtn {
-    bottom: 100px;
-    width: 70px;
-    height: 70px;
-    font-size: 30px;
-  }
+    #container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  #frame {
-    border-width: 20px;
-  }
-}
+    video, canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -53%) scaleX(-1);
+      object-fit: cover;
+      filter: brightness(1.25) contrast(1.15) saturate(1.1) blur(0.4px);
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(255, 105, 180, 0.4);
+    }
 
+    #frame {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -53%);
+      border: 30px solid #ffaad4;
+      box-sizing: border-box;
+      pointer-events: none;
+      z-index: 3;
+      border-radius: 12px;
+    }
+
+    #fotoBtn {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #ff66a3;
+      border: none;
+      font-size: 36px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px #e88eb4;
+      z-index: 4;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      video, canvas, #frame {
+        width: auto;
+        height: 100vh;
+        max-width: 100vw;
+        max-height: 100vh;
+        top: 48%;
+        transform: translate(-50%, -50%) scaleX(-1);
+      }
+
+      #fotoBtn {
+        bottom: 100px;
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+      }
+
+      #frame {
+        border-width: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <video id="kamera" autoplay muted playsinline></video>
+    <canvas id="overlay"></canvas>
+    <div id="frame"></div>
+    <button id="fotoBtn">📸</button>
+    <a id="downloadLink" download="Fla-Foto.png" style="display: none;"></a>
+  </div>
+
+  <script>
+    const video = document.getElementById('kamera');
+    const canvas = document.getElementById('overlay');
+    const context = canvas.getContext('2d');
+    const fotoBtn = document.getElementById('fotoBtn');
+    const downloadLink = document.getElementById('downloadLink');
+
+    async function startKamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+      } catch (err) {
+        alert("Kamera gagal dibuka: " + err.message);
+      }
+    }
+
+    fotoBtn.addEventListener('click', () => {
+      const isMobile = window.innerWidth <= 768;
+      const width = isMobile ? 1080 : 800;
+      const height = isMobile ? 1400 : 608;  // HP: tambah tinggi sedikit
+
+      const fotoCanvas = document.createElement('canvas');
+      fotoCanvas.width = width;
+      fotoCanvas.height = height;
+      const ctx = fotoCanvas.getContext('2d');
+
+      ctx.translate(width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(video, 0, 0, width, height);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.drawImage(canvas, 0, 0, width, height);
+
+      ctx.lineWidth = isMobile ? 40 : 30;
+      ctx.strokeStyle = '#ffaad4';
+      ctx.strokeRect(0, 0, width, height);
+
+      const dataURL = fotoCanvas.toDataURL('image/png');
+      downloadLink.href = dataURL;
+      downloadLink.click();
+    });
+
+    startKamera();
+  </script>
+</body>
+</html>
