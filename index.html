@@ -4,44 +4,48 @@
   <meta charset="UTF-8" />
   <title>Beauty Webcam by Fla 📸</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background-color: #ffd6e7;
-      font-family: sans-serif;
+      background: #ffe6f0;
+      font-family: 'Segoe UI', sans-serif;
       height: 100%;
       overflow: hidden;
       text-align: center;
     }
 
     h1 {
+      color: hotpink;
+      font-size: 28px;
       margin: 20px 0 10px;
-      color: white;
-      font-size: 24px;
     }
 
     #container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: start;
-      height: 100%;
+      position: relative;
+      display: inline-block;
     }
 
-    video {
+    video, canvas {
+      width: 400px;
+      height: 300px;
       border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
       transform: scaleX(-1);
-      object-fit: cover;
-      filter: brightness(1.35) contrast(1.15) saturate(1.1) blur(0.6px);
-      box-shadow: 0 0 25px rgba(255, 105, 180, 0.4);
-      z-index: 1;
-      margin-top: 10px;
+      filter: brightness(1.3) blur(1px) contrast(1.1);
+      z-index: 2;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      pointer-events: none;
     }
 
     #fotoBtn {
-      margin-top: 18px;
+      margin-top: 20px;
       width: 70px;
       height: 70px;
       border-radius: 50%;
@@ -49,47 +53,38 @@
       border: none;
       font-size: 30px;
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 10px #e88eb4;
-      z-index: 2;
+      box-shadow: 0 0 15px #e88eb4;
       cursor: pointer;
+      z-index: 4;
     }
 
     @media (max-width: 768px) {
       h1 {
-        margin-top: 30px;
-        font-size: 22px;
+        margin-top: 25px;
+        text-align: center;
       }
-      video {
-        width: 320px;
-        height: 430px;
-      }
-    }
 
-    @media (min-width: 769px) {
-      h1 {
-        margin-top: 40px;
-        font-size: 26px;
-      }
-      video {
-        width: 480px;
-        height: 360px;
+      video, canvas {
+        width: 320px;
+        height: 420px;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Beauty Webcam by Fla 📸</h1>
+  <h1 id="judul">Beauty Webcam by Fla 📸</h1>
   <div id="container">
     <video id="kamera" autoplay muted playsinline></video>
-    <button id="fotoBtn">📸</button>
-    <a id="downloadLink" download="Fla-Foto.png" style="display: none;"></a>
+    <canvas id="overlay" width="400" height="300"></canvas>
   </div>
+  <br>
+  <button id="fotoBtn">📸</button>
+  <a id="downloadLink" download="Fla-Foto.png" style="display: none;"></a>
 
   <script>
     const video = document.getElementById('kamera');
+    const canvas = document.getElementById('overlay');
+    const context = canvas.getContext('2d');
     const fotoBtn = document.getElementById('fotoBtn');
     const downloadLink = document.getElementById('downloadLink');
 
@@ -114,20 +109,20 @@
 
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
-      ctx.filter = 'brightness(1.35) contrast(1.15) saturate(1.1) blur(0.6px)';
       ctx.drawImage(video, 0, 0, width, height);
-
-      // Frame pink
       ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.drawImage(canvas, 0, 0, width, height);
+
+      // Tambah frame pink
       ctx.lineWidth = isMobile ? 40 : 30;
       ctx.strokeStyle = '#ffaad4';
       ctx.strokeRect(0, 0, width, height);
 
-      // Watermark estetik
-      ctx.fillStyle = 'rgba(255, 105, 180, 0.85)';
-      ctx.font = isMobile ? '40px "Great Vibes", cursive' : '24px "Great Vibes", cursive';
+      // Tambah watermark
+      ctx.fillStyle = 'rgba(255, 105, 180, 0.8)';
+      ctx.font = '16px "Segoe UI", sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText('Webcam by Fla', width - 20, height - 20);
+      ctx.fillText("Webcam by Fla", width - 15, height - 20);
 
       const dataURL = fotoCanvas.toDataURL('image/png');
       downloadLink.href = dataURL;
@@ -138,4 +133,3 @@
   </script>
 </body>
 </html>
-
