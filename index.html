@@ -80,27 +80,27 @@
       }
     }
 
-   @media (max-width: 768px) {
+ @media (max-width: 768px) {
   video, canvas {
     position: absolute;
-    top: 45px;
+    top: 20px; /* Naikkan posisi kamera */
     left: 50%;
     width: 270px;
     height: 360px;
-    transform: translateX(-60%) scaleX(-1);
+    transform: translateX(-50%) scaleX(-1); /* Fix: rata tengah */
   }
 
+  #fotoBtn {
+    bottom: 370px; 
+    width: 70px;
+    height: 70px;
+    font-size: 26px;
+  }
 
-      #fotoBtn {
-        bottom: 370px; 
-        width: 70px;
-        height: 70px;
-        font-size: 26px;
-      }
-
-      h1 {
-        margin-top: 120px; 
-    }
+  h1 {
+    margin-top: 40px; /* Naikkan judul */
+  }
+   
   </style>
 </head>
 <body>
