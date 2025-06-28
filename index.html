@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Beauty Webcam by Fla 📸</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
@@ -82,13 +82,13 @@
     /* HP style */
     @media (max-width: 768px) {
       video, canvas {
-        top: 80px;
+        top: 90px;
         width: 270px;
         height: 360px;
       }
 
       #fotoBtn {
-        bottom: 160px; /* dinaikkan jauh ke atas */
+        bottom: 140px; /* dinaikkan lebih tinggi */
         width: 70px;
         height: 70px;
         font-size: 30px;
@@ -96,7 +96,6 @@
 
       h1 {
         margin-top: 40px; /* diturunkan sedikit */
-        text-align: center;
       }
     }
   </style>
@@ -130,29 +129,28 @@
     fotoBtn.addEventListener('click', () => {
       const isMobile = window.innerWidth <= 768;
       const width = isMobile ? 1080 : 800;
-      const height = isMobile ? 1450 : 608; // Hasil HP ditambah tinggi
+      const height = isMobile ? 1450 : 608;
 
       const fotoCanvas = document.createElement('canvas');
       fotoCanvas.width = width;
       fotoCanvas.height = height;
       const ctx = fotoCanvas.getContext('2d');
 
-      // Mirror kamera
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
       ctx.drawImage(video, 0, 0, width, height);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-      // Filter "brutal" (semi glowing pink layer)
+      // Tambahkan filter ke hasil
       ctx.fillStyle = 'rgba(255, 192, 203, 0.05)';
       ctx.fillRect(0, 0, width, height);
 
-      // Frame pink
+      // Tambahkan frame pink
       ctx.lineWidth = isMobile ? 40 : 30;
       ctx.strokeStyle = '#ffaad4';
       ctx.strokeRect(0, 0, width, height);
 
-      // Watermark Coquette
+      // Watermark coquette
       ctx.font = '30px "Great Vibes"';
       ctx.fillStyle = 'hotpink';
       ctx.fillText('Webcam by Fla', width - 300, height - 40);
@@ -166,6 +164,7 @@
   </script>
 </body>
 </html>
+
 
 
 
