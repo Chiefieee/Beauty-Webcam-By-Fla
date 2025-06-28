@@ -4,9 +4,8 @@
   <meta charset="UTF-8" />
   <title>Beauty Webcam by Fla 📸</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
-
     html, body {
       margin: 0;
       padding: 0;
@@ -14,108 +13,89 @@
       font-family: sans-serif;
       height: 100%;
       overflow: hidden;
+      text-align: center;
     }
 
     h1 {
       color: hotpink;
-      text-align: center;
-      font-size: 28px;
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     #container {
       position: relative;
       width: 100vw;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
 
     video, canvas {
       position: absolute;
-      transform: scaleX(-1);
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(255, 105, 180, 0.4);
-      filter: brightness(1.5) contrast(1.4) saturate(1.3) blur(0.8px);
+      left: 50%;
+      transform: translateX(-50%) scaleX(-1);
       object-fit: cover;
-    }
-
-    #kamera {
-      z-index: 1;
-    }
-
-    #overlay {
-      z-index: 2;
-      pointer-events: none;
+      border-radius: 15px;
+      box-shadow: 0 0 25px hotpink;
+      filter: brightness(1.4) contrast(1.3) saturate(1.4) blur(1px);
     }
 
     #fotoBtn {
       position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       width: 80px;
       height: 80px;
       background: #ff66a3;
-      color: white;
       border: none;
       border-radius: 50%;
       font-size: 36px;
+      color: white;
       box-shadow: 0 0 15px #e88eb4;
       cursor: pointer;
-      z-index: 3;
+      z-index: 4;
     }
 
-    #downloadLink {
-      display: none;
-    }
-
-    .watermark {
+    #watermark {
       position: absolute;
-      right: 10px;
       bottom: 10px;
+      right: 10px;
       font-family: 'Great Vibes', cursive;
-      font-size: 18px;
-      color: #ff69b4;
-      z-index: 10;
+      font-size: 20px;
+      color: hotpink;
     }
 
-    @media (max-width: 768px) {
-      h1 {
-        margin-top: 16px;
-        font-size: 22px;
-      }
-
+    /* Laptop style */
+    @media (min-width: 769px) {
       video, canvas {
-        width: 260px;
-        height: 340px;
-        top: 90px;
-        left: 50%;
-        transform: translateX(-50%) scaleX(-1);
+        top: 120px;
+        width: 800px;
+        height: 608px;
       }
 
       #fotoBtn {
-        bottom: 110px;
-        left: 50%;
-        transform: translateX(-50%);
+        bottom: 80px;
+      }
+
+      h1 {
+        margin-top: 20px;
+      }
+    }
+
+    /* HP style */
+    @media (max-width: 768px) {
+      video, canvas {
+        top: 90px;
+        width: 270px;
+        height: 360px;
+      }
+
+      #fotoBtn {
+        bottom: 120px;
         width: 70px;
         height: 70px;
         font-size: 30px;
       }
-    }
 
-    @media (min-width: 769px) {
-      video, canvas {
-        width: 800px;
-        height: 608px;
-        top: 80px;
-        left: 50%;
-        transform: translateX(-50%) scaleX(-1);
-      }
-
-      #fotoBtn {
-        bottom: 90px;
-        left: 50%;
-        transform: translateX(-50%);
+      h1 {
+        margin-top: 10px;
       }
     }
   </style>
@@ -126,50 +106,55 @@
     <video id="kamera" autoplay muted playsinline></video>
     <canvas id="overlay"></canvas>
     <button id="fotoBtn">📸</button>
-    <a id="downloadLink" download="Fla-Foto.png"></a>
+    <a id="downloadLink" download="Fla-Foto.png" style="display: none;"></a>
+    <div id="watermark">Webcam by Fla</div>
   </div>
 
   <script>
     const video = document.getElementById('kamera');
     const canvas = document.getElementById('overlay');
+    const context = canvas.getContext('2d');
     const fotoBtn = document.getElementById('fotoBtn');
     const downloadLink = document.getElementById('downloadLink');
-    const ctx = canvas.getContext('2d');
 
     async function startKamera() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
       } catch (err) {
-        alert("Kamera gagal dibuka: " + err.message);
+        alert("Gagal mengakses kamera: " + err.message);
       }
     }
 
     fotoBtn.addEventListener('click', () => {
       const isMobile = window.innerWidth <= 768;
       const width = isMobile ? 1080 : 800;
-      const height = isMobile ? 1400 : 608;
+      const height = isMobile ? 1450 : 608; // HP: tambah tinggi agar tidak gepeng
 
       const fotoCanvas = document.createElement('canvas');
       fotoCanvas.width = width;
       fotoCanvas.height = height;
-      const context = fotoCanvas.getContext('2d');
+      const ctx = fotoCanvas.getContext('2d');
 
-      context.translate(width, 0);
-      context.scale(-1, 1);
-      context.filter = "brightness(1.5) contrast(1.4) saturate(1.3) blur(0.8px)";
-      context.drawImage(video, 0, 0, width, height);
+      // Mirror kamera
+      ctx.translate(width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(video, 0, 0, width, height);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-      // Frame pink
-      context.lineWidth = isMobile ? 40 : 30;
-      context.strokeStyle = '#ffaad4';
-      context.strokeRect(0, 0, width, height);
+      // Brutal filter (di-render manual)
+      ctx.fillStyle = 'rgba(255, 192, 203, 0.05)';
+      ctx.fillRect(0, 0, width, height);
 
-      // Watermark
-      context.font = "24px 'Great Vibes'";
-      context.fillStyle = "#ff69b4";
-      context.textAlign = "right";
-      context.fillText("Webcam by Fla", width - 20, height - 20);
+      // Tambah frame pink di hasil
+      ctx.lineWidth = isMobile ? 40 : 30;
+      ctx.strokeStyle = '#ffaad4';
+      ctx.strokeRect(0, 0, width, height);
+
+      // Watermark coquette
+      ctx.font = '30px "Great Vibes"';
+      ctx.fillStyle = 'hotpink';
+      ctx.fillText('Webcam by Fla', width - 300, height - 40);
 
       const dataURL = fotoCanvas.toDataURL('image/png');
       downloadLink.href = dataURL;
@@ -180,17 +165,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
