@@ -78,14 +78,16 @@
       }
     }
 
-    @media (max-width: 768px) {
-      video, canvas {
-        top: 45px;
-        width: 270px;
-        height: 360px;
-         left: 50%;
+   @media (max-width: 768px) {
+  video, canvas {
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    width: 270px;
+    height: 360px;
     transform: translateX(-50%) scaleX(-1);
-      }
+  }
+
 
       #fotoBtn {
         bottom: 370px; 
@@ -95,7 +97,7 @@
       }
 
       h1 {
-        margin-top: 140px; 
+        margin-top: 120px; 
     }
   </style>
 </head>
