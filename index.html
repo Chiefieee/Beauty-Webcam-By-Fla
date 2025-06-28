@@ -27,11 +27,15 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) scaleX(-1);
+      transform: translate(-50%, -53%) scaleX(-1);
       object-fit: cover;
-      filter: brightness(1.2) contrast(1.1) saturate(1.05) blur(0.3px);
+      filter: brightness(1.25) contrast(1.15) saturate(1.1) blur(0.4px);
       border-radius: 12px;
-      box-shadow: 0 0 25px rgba(255, 105, 180, 0.4);
+      box-shadow: 0 0 30px rgba(255, 105, 180, 0.4);
+    }
+
+    #frame {
+      display: none; /* Default: tidak tampil */
     }
 
     #fotoBtn {
@@ -54,7 +58,6 @@
       cursor: pointer;
     }
 
-    /* Hanya HP: frame pink + kamera vertikal */
     @media (max-width: 768px) {
       video, canvas {
         width: auto;
@@ -65,17 +68,18 @@
         transform: translate(-50%, -50%) scaleX(-1);
       }
 
-      #container::before {
-        content: "";
+      #frame {
+        display: block;
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 50%;
+        left: 50%;
+        width: 100vw;
+        height: 100vh;
+        transform: translate(-50%, -50%);
         border: 20px solid #ffaad4;
         box-sizing: border-box;
-        z-index: 3;
         pointer-events: none;
+        z-index: 3;
         border-radius: 12px;
       }
 
@@ -92,6 +96,7 @@
   <div id="container">
     <video id="kamera" autoplay muted playsinline></video>
     <canvas id="overlay"></canvas>
+    <div id="frame"></div>
     <button id="fotoBtn">📸</button>
     <a id="downloadLink" download="Fla-Foto.png" style="display: none;"></a>
   </div>
@@ -99,6 +104,7 @@
   <script>
     const video = document.getElementById('kamera');
     const canvas = document.getElementById('overlay');
+    const context = canvas.getContext('2d');
     const fotoBtn = document.getElementById('fotoBtn');
     const downloadLink = document.getElementById('downloadLink');
 
@@ -127,9 +133,11 @@
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.drawImage(canvas, 0, 0, width, height);
 
-      ctx.lineWidth = isMobile ? 40 : 30;
-      ctx.strokeStyle = '#ffaad4';
-      ctx.strokeRect(0, 0, width, height);
+      if (isMobile) {
+        ctx.lineWidth = 40;
+        ctx.strokeStyle = '#ffaad4';
+        ctx.strokeRect(0, 0, width, height);
+      }
 
       const dataURL = fotoCanvas.toDataURL('image/png');
       downloadLink.href = dataURL;
@@ -140,5 +148,6 @@
   </script>
 </body>
 </html>
+
 
 
