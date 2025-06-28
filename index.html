@@ -64,21 +64,27 @@
 
     /* Laptop style */
     @media (min-width: 769px) {
-      video, canvas {
-        top: 20px; /* dinaikkan */
-        width: 800px;
-        height: 608px;
-      }
+  video, canvas {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(-1);
+    width: 800px;
+    height: 608px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 0 25px hotpink;
+    filter: brightness(1.4) contrast(1.3) saturate(1.4) blur(1px);
+  }
 
-      #fotoBtn {
-        bottom: 100px; /* dinaikkan */
-      }
+  #fotoBtn {
+    bottom: 100px;
+  }
 
-      h1 {
-        margin-top: 20px;
-      }
-    }
-
+  h1 {
+    margin-top: 20px;
+  }
+}
     /* HP style */
   video, canvas {
   top: 90px;
