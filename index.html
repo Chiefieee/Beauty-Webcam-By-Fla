@@ -10,9 +10,9 @@
       padding: 0;
       background-color: #ffd6e7;
       font-family: sans-serif;
-      text-align: center;
+      height: 100%;
       overflow: hidden;
-      height: 100vh;
+      text-align: center;
     }
 
     h1 {
@@ -26,10 +26,10 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      margin-top: -80px;
+      margin-top: -50px;
     }
 
-    #kamera {
+    video {
       border-radius: 15px;
       transform: scaleX(-1);
       object-fit: cover;
@@ -56,14 +56,14 @@
     }
 
     @media (max-width: 768px) {
-      #kamera {
+      video {
         width: 320px;
         height: 430px;
       }
     }
 
     @media (min-width: 769px) {
-      #kamera {
+      video {
         width: 480px;
         height: 360px;
       }
@@ -102,7 +102,7 @@
       fotoCanvas.height = height;
       const ctx = fotoCanvas.getContext('2d');
 
-      // Mirror, filter & ambil gambar
+      // Mirror dan filter
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
       ctx.filter = 'brightness(1.35) contrast(1.15) saturate(1.1) blur(0.6px)';
@@ -114,13 +114,13 @@
       ctx.strokeStyle = '#ffaad4';
       ctx.strokeRect(0, 0, width, height);
 
-      // Watermark kecil
-      ctx.fillStyle = 'rgba(255, 105, 180, 0.8)';
+      // Watermark
+      ctx.fillStyle = 'rgba(255, 105, 180, 0.85)';
       ctx.font = isMobile ? '28px sans-serif' : '16px sans-serif';
       ctx.textAlign = 'right';
       ctx.fillText('Webcam by Fla', width - 20, height - 20);
 
-      // Download
+      // Download hasil
       const dataURL = fotoCanvas.toDataURL('image/png');
       downloadLink.href = dataURL;
       downloadLink.click();
@@ -130,6 +130,7 @@
   </script>
 </body>
 </html>
+
 
 
 
