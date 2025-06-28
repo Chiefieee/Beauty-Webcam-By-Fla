@@ -80,12 +80,14 @@
     }
 
     /* HP style */
-    @media (max-width: 768px) {
-      video, canvas {
-        top: 90px;
-        width: 270px;
-        height: 360px;
-      }
+  video, canvas {
+  top: 90px;
+  width: 270px;
+  height: 360px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(-1);
+}
+
 
       #fotoBtn {
         bottom: 150px; /* dinaikkan */
