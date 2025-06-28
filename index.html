@@ -21,21 +21,20 @@
     }
 
     #container {
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: calc(100vh - 100px);
+      height: 100%;
     }
 
     #kamera {
       border-radius: 15px;
       transform: scaleX(-1);
       object-fit: cover;
-      z-index: 2;
-      filter: brightness(1.25) contrast(1.1) saturate(1.05) blur(0.3px);
+      filter: brightness(1.2) contrast(1.1) saturate(1.05) blur(0.3px);
       box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+      z-index: 1;
     }
 
     #fotoBtn {
@@ -51,7 +50,7 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 0 10px #e88eb4;
-      z-index: 3;
+      z-index: 2;
       cursor: pointer;
     }
 
@@ -104,7 +103,7 @@
 
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
-      ctx.filter = 'brightness(1.25) contrast(1.1) saturate(1.05) blur(0.3px)';
+      ctx.filter = 'brightness(1.2) contrast(1.1) saturate(1.05) blur(0.3px)';
       ctx.drawImage(video, 0, 0, width, height);
 
       const dataURL = fotoCanvas.toDataURL('image/png');
@@ -116,5 +115,6 @@
   </script>
 </body>
 </html>
+
 
 
