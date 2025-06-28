@@ -13,22 +13,29 @@
       font-family: sans-serif;
       height: 100%;
       overflow: hidden;
-      text-align: center;
     }
 
-    h1 {
-      margin-top: 70px; /* ← Jelas diturunkan */
+    #judul {
+      position: absolute;
+      top: 80px; /* INI yang bikin judulnya turun nyata */
+      left: 50%;
+      transform: translateX(-50%);
       color: white;
       font-size: 26px;
+      font-weight: bold;
+      z-index: 10;
+      text-shadow: 1px 1px 3px hotpink;
     }
 
     #container {
+      position: absolute;
+      top: 130px; /* Kamera turun */
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: start;
-      height: 100%;
-      margin-top: -40px;
+      justify-content: center;
     }
 
     video {
@@ -37,11 +44,10 @@
       object-fit: cover;
       filter: brightness(1.35) contrast(1.15) saturate(1.1) blur(0.6px);
       box-shadow: 0 0 25px rgba(255, 105, 180, 0.4);
-      z-index: 1;
     }
 
     #fotoBtn {
-      margin-top: 18px;
+      margin-top: 15px;
       width: 70px;
       height: 70px;
       border-radius: 50%;
@@ -53,7 +59,6 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 0 10px #e88eb4;
-      z-index: 2;
       cursor: pointer;
     }
 
@@ -73,7 +78,8 @@
   </style>
 </head>
 <body>
-  <h1>Beauty Webcam by Fla 📸</h1>
+
+  <div id="judul">Beauty Webcam by Fla 📸</div>
 
   <div id="container">
     <video id="kamera" autoplay muted playsinline></video>
@@ -110,7 +116,7 @@
       ctx.filter = 'brightness(1.35) contrast(1.15) saturate(1.1) blur(0.6px)';
       ctx.drawImage(video, 0, 0, width, height);
 
-      // Tambahkan frame pink
+      // Frame pink
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.lineWidth = isMobile ? 40 : 30;
       ctx.strokeStyle = '#ffaad4';
