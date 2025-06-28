@@ -63,23 +63,15 @@
     }
 
     /* Laptop style */
-    @media (min-width: 769px) {
+   @media (min-width: 769px) {
   video, canvas {
-    position: absolute;
-    top: 20px; /* posisi kamera dinaikkan */
-    left: 50%;
-    transform: translateX(-50%) scaleX(-1);
+    top: 20px;
     width: 800px;
     height: 608px;
-    object-fit: cover;  /* biar penuh tapi tetap rasio */
-    aspect-ratio: 4 / 3; /* pastikan horizontal */
-    border-radius: 15px;
-    box-shadow: 0 0 25px hotpink;
-    filter: brightness(1.4) contrast(1.3) saturate(1.4) blur(1px);
+    aspect-ratio: 4 / 3;
+    object-fit: fill; /* atau coba 'contain' jika 'fill' gagal */
   }
 }
-
-
   #fotoBtn {
     bottom: 100px;
   }
